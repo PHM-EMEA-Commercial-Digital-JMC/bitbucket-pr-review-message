@@ -6,7 +6,7 @@ async function copyMessageToClipboard() {
   const prHeaderSymbol = /{PR_HEADER}/;
   const jiraLinkSymbol = /{JIRA_CARD}/;
   const jiraHeaderSymbol = /{JIRA_HEADER}/;
-  const jiraLinks = [...document.querySelectorAll('h1 [data-link-key="dvcs-connector-issue-key-linker"]')];
+  const jiraLinks = [...document.querySelectorAll('a.jira-issue-link')];
   const jiraLinkPlainText = jiraLinks.map((link) => link.innerHTML).join('|');
   const jiraLinkHtmlText = jiraLinks.map((link) =>
     `<a href="${link.href}">${link.innerHTML}</a>`).join(' | ');
@@ -16,6 +16,8 @@ async function copyMessageToClipboard() {
     .replace(/^]/, '')
     .trim();
   const jiraHeader = document.querySelector('[data-testid="jira-issues-card-item"] > div')?.textContent ?? '';
+
+  console.log({ prHeader, jiraHeader, jiraLinkPlainText, jiraLinkHtmlText });
 
   const clipboardItem = new ClipboardItem({
     "text/plain": new Blob(
@@ -53,10 +55,21 @@ async function addCopyBtn() {
 
   const btnClassName = 'pr-review-message__btn';
   const btnText = '📋 Copy review message';
-  const header1 = document.querySelector('[data-qa="pr-header-page-header-wrapper"] h1') || document.querySelector('[data-testid="pr-header"] h1');
   const currentCopyBtn = document.querySelector(`.${btnClassName}`);
 
+  // Try Bitbucket selectors first
+  let header1 = document.querySelector('[data-qa="pr-header-page-header-wrapper"] h1') || document.querySelector('[data-testid="pr-header"] h1');
+
+  // If not found, try sourcecode.jnj.com selector
+  if (!header1) {
+    const headerSection = document.querySelector('div.pull-request-title-review-section');
+    if (headerSection) {
+      header1 = headerSection;
+    }
+  }
+
   if (header1 && !currentCopyBtn) {
+    console.log('Adding copy button to PR page');
     const copyBtn = document.createElement('button');
     copyBtn.classList.add(btnClassName);
     copyBtn.textContent = btnText;
@@ -74,6 +87,8 @@ async function addCopyBtn() {
     });
 
     header1.insertAdjacentElement('afterend', copyBtn);
+  } else {
+    console.log('Copy button already exists or header not found');
   }
 }
 

@@ -1,7 +1,8 @@
 chrome.runtime.onInstalled.addListener((details) => {
   if (details.reason == "install") {
-    const defaultReviewTemplate = `Hi Team! {JIRA_HEADER}. Please review my pull request. Thank you! 🙏
-{PR_LINK} | {JIRA_CARD}`;
+    const defaultReviewTemplate = `{PR_LINK} for {JIRA_CARD}
+
+Please review! 🙏`;
     chrome.storage.sync.set({ reviewTemplate: defaultReviewTemplate });
   }
   else if (details.reason == "update") {

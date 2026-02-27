@@ -22,7 +22,10 @@
     {
       "js": ["content/content_script.js"],
       "css": ["content/style.css"],
-      "matches": ["https://bitbucket.org/*"]
+      "matches": [
+        "https://bitbucket.org/*",
+        "https://sourcecode.jnj.com/*"
+      ]
     }
   ]
 }
