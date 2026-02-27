@@ -6,9 +6,25 @@
 
 A chrome extension for bitbucket users to copy links and messages quickly for pull request reviewing.
 
-## installation
+
+## Installation
+
+### From Chrome Web Store
 
 [Chrome extension store](https://chrome.google.com/webstore/detail/bitbucket-pr-review/hgjmacckifgnlkmgogjcgenmbmbgmlgm)
+
+### From Local Repository Clone
+
+To install the extension from a local clone of this repository:
+
+1. Clone or download this repository to your computer.
+2. Open Google Chrome and go to `chrome://extensions/`.
+3. Enable **Developer mode** (toggle in the top right).
+4. Click **Load unpacked**.
+5. Select the root folder of your cloned repository (where the manifest.json file is located).
+6. The extension will now appear in your extensions list and be active.
+
+You can now use and test the extension locally. After making changes, click the refresh button on the extension card in `chrome://extensions/` to reload it.
 
 ## Usage
 
